@@ -10,7 +10,7 @@ static FOOTNOTE_DEF_REGEX: LazyLock<Regex> =
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
-pub struct MD063Config {
+pub struct MD901Config {
     /// Check for duplicate footnote definitions (always an error in most parsers)
     #[serde(default = "default_true")]
     pub check_definitions: bool,
@@ -27,7 +27,7 @@ fn default_false() -> bool {
     false
 }
 
-impl Default for MD063Config {
+impl Default for MD901Config {
     fn default() -> Self {
         Self {
             check_definitions: true,
@@ -36,30 +36,30 @@ impl Default for MD063Config {
     }
 }
 
-impl RuleConfig for MD063Config {
-    const RULE_NAME: &'static str = "MD063";
+impl RuleConfig for MD901Config {
+    const RULE_NAME: &'static str = "MD901";
 }
 
 #[derive(Clone, Default)]
-pub struct MD063DuplicateFootnotes {
-    config: MD063Config,
+pub struct MD901DuplicateFootnotes {
+    config: MD901Config,
 }
 
-impl MD063DuplicateFootnotes {
+impl MD901DuplicateFootnotes {
     pub fn new() -> Self {
         Self {
-            config: MD063Config::default(),
+            config: MD901Config::default(),
         }
     }
 
-    pub fn from_config_struct(config: MD063Config) -> Self {
+    pub fn from_config_struct(config: MD901Config) -> Self {
         Self { config }
     }
 }
 
-impl Rule for MD063DuplicateFootnotes {
+impl Rule for MD901DuplicateFootnotes {
     fn name(&self) -> &'static str {
-        "MD063"
+        "MD901"
     }
 
     fn description(&self) -> &'static str {
@@ -155,7 +155,7 @@ impl Rule for MD063DuplicateFootnotes {
     {
         let rule_config = config
             .rules
-            .get(MD063Config::RULE_NAME)
+            .get(MD901Config::RULE_NAME)
             .and_then(|rc| serde_json::to_value(&rc.values).ok())
             .and_then(|v| serde_json::from_value(v).ok())
             .unwrap_or_default();
@@ -163,13 +163,13 @@ impl Rule for MD063DuplicateFootnotes {
     }
 
     fn default_config_section(&self) -> Option<(String, toml::Value)> {
-        let default_config = MD063Config::default();
+        let default_config = MD901Config::default();
         let json_value = serde_json::to_value(&default_config).ok()?;
         let toml_value = crate::rule_config_serde::json_to_toml_value(&json_value)?;
         
         if let toml::Value::Table(table) = toml_value {
             if !table.is_empty() {
-                Some((MD063Config::RULE_NAME.to_string(), toml::Value::Table(table)))
+                Some((MD901Config::RULE_NAME.to_string(), toml::Value::Table(table)))
             } else {
                 None
             }

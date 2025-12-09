@@ -10,7 +10,13 @@ repository = "https://github.com/rvben/rumdl"
 homepage = "https://github.com/rvben/rumdl"
 documentation = "https://github.com/rvben/rumdl/blob/main/docs"
 readme = "README.md"
-keywords = ["markdown", "linter", "markdown-linter", "static-analysis", "documentation"]
+keywords = [
+    "markdown",
+    "linter",
+    "markdown-linter",
+    "static-analysis",
+    "documentation",
+]
 categories = ["command-line-utilities", "development-tools", "text-processing"]
 exclude = [".github/", ".gitignore", "*.bak"]
 
@@ -26,10 +32,10 @@ name = "rumdl"
 path = "src/main.rs"
 
 [profile.release]
-lto = true           # Enable Link-Time Optimization
-strip = true         # Strip symbols from binary
-opt-level = "z"      # Optimize for size (alternative: "s" for small, "3" for speed)
-codegen-units = 1    # Better optimization but slower compile times
+lto = true        # Enable Link-Time Optimization
+strip = true      # Strip symbols from binary
+opt-level = "z"   # Optimize for size (alternative: "s" for small, "3" for speed)
+codegen-units = 1 # Better optimization but slower compile times
 
 [profile.profiling]
 inherits = "release"
@@ -101,7 +107,12 @@ native = [
     "colored",
     "memory-stats",
 ]
-wasm = ["wasm-bindgen", "console_error_panic_hook", "js-sys", "serde-wasm-bindgen"]
+wasm = [
+    "wasm-bindgen",
+    "console_error_panic_hook",
+    "js-sys",
+    "serde-wasm-bindgen",
+]
 
 [dev-dependencies]
 assert_cmd = "2.0.17"

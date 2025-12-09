@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
-pub struct MD064Config {
+pub struct MD902Config {
     /// Maximum number of words allowed in a paragraph before requiring a footnote
     #[serde(default = "default_max_words")]
     pub max_words: usize,
@@ -21,7 +21,7 @@ fn default_false() -> bool {
     false
 }
 
-impl Default for MD064Config {
+impl Default for MD902Config {
     fn default() -> Self {
         Self {
             max_words: 200,
@@ -30,23 +30,23 @@ impl Default for MD064Config {
     }
 }
 
-impl RuleConfig for MD064Config {
-    const RULE_NAME: &'static str = "MD064";
+impl RuleConfig for MD902Config {
+    const RULE_NAME: &'static str = "MD902";
 }
 
 #[derive(Clone, Default)]
-pub struct MD064LongParagraphFootnotes {
-    config: MD064Config,
+pub struct MD902LongParagraphFootnotes {
+    config: MD902Config,
 }
 
-impl MD064LongParagraphFootnotes {
+impl MD902LongParagraphFootnotes {
     pub fn new() -> Self {
         Self {
-            config: MD064Config::default(),
+            config: MD902Config::default(),
         }
     }
 
-    pub fn from_config_struct(config: MD064Config) -> Self {
+    pub fn from_config_struct(config: MD902Config) -> Self {
         Self { config }
     }
 
@@ -61,9 +61,9 @@ impl MD064LongParagraphFootnotes {
     }
 }
 
-impl Rule for MD064LongParagraphFootnotes {
+impl Rule for MD902LongParagraphFootnotes {
     fn name(&self) -> &'static str {
-        "MD064"
+        "MD902"
     }
 
     fn description(&self) -> &'static str {
@@ -162,7 +162,7 @@ impl Rule for MD064LongParagraphFootnotes {
     {
         let rule_config = config
             .rules
-            .get(MD064Config::RULE_NAME)
+            .get(MD902Config::RULE_NAME)
             .and_then(|rc| serde_json::to_value(&rc.values).ok())
             .and_then(|v| serde_json::from_value(v).ok())
             .unwrap_or_default();
