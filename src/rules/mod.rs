@@ -56,6 +56,8 @@ mod md059_link_text;
 mod md060_table_format;
 mod md061_forbidden_terms;
 mod md062_link_destination_whitespace;
+mod md063_duplicate_footnotes;
+mod md064_long_paragraph_footnotes;
 
 pub use md001_heading_increment::MD001HeadingIncrement;
 pub use md003_heading_style::MD003HeadingStyle;
@@ -106,6 +108,8 @@ pub use md059_link_text::MD059LinkText;
 pub use md060_table_format::MD060TableFormat;
 pub use md061_forbidden_terms::MD061ForbiddenTerms;
 pub use md062_link_destination_whitespace::MD062LinkDestinationWhitespace;
+pub use md063_duplicate_footnotes::MD063DuplicateFootnotes;
+pub use md064_long_paragraph_footnotes::MD064LongParagraphFootnotes;
 
 mod md012_no_multiple_blanks;
 pub use md012_no_multiple_blanks::MD012NoMultipleBlanks;
@@ -193,6 +197,8 @@ pub fn all_rules(config: &crate::config::Config) -> Vec<Box<dyn Rule>> {
         ("MD060", MD060TableFormat::from_config),
         ("MD061", MD061ForbiddenTerms::from_config),
         ("MD062", MD062LinkDestinationWhitespace::from_config),
+        ("MD063", MD063DuplicateFootnotes::from_config),
+        ("MD064", MD064LongParagraphFootnotes::from_config),
     ];
     RULES.iter().map(|(_, ctor)| ctor(config)).collect()
 }
