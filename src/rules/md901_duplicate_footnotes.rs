@@ -5,8 +5,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::sync::LazyLock;
 
-static FOOTNOTE_DEF_REGEX: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"^(\s*)\[\^([a-zA-Z0-9_-]+)\]:\s*").unwrap());
+static FOOTNOTE_DEF_REGEX: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^(\s*)\[\^([a-zA-Z0-9_-]+)\]:\s*").unwrap());
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
@@ -79,27 +78,27 @@ impl Rule for MD901DuplicateFootnotes {
                 }
 
                 let content = line_info.content(ctx.content);
-                if let Some(cap) = FOOTNOTE_DEF_REGEX.captures(content) {
-                    if let Some(id_match) = cap.get(2) {
-                        let id = id_match.as_str();
-                        if let Some(&first_line) = seen_definitions.get(id) {
-                            warnings.push(LintWarning {
-                                message: format!(
-                                    "Duplicate footnote definition '[^{}]' (first defined on line {})",
-                                    id,
-                                    first_line + 1
-                                ),
-                                line: line_idx + 1,
-                                column: line_info.indent + 1,
-                                end_line: line_idx + 1,
-                                end_column: line_info.indent + 1 + cap.get(0).unwrap().len(),
-                                severity: Severity::Error,
-                                fix: None,
-                                rule_name: Some(self.name().to_string()),
-                            });
-                        } else {
-                            seen_definitions.insert(id.to_string(), line_idx);
-                        }
+                if let Some(cap) = FOOTNOTE_DEF_REGEX.captures(content)
+                    && let Some(id_match) = cap.get(2)
+                {
+                    let id = id_match.as_str();
+                    if let Some(&first_line) = seen_definitions.get(id) {
+                        warnings.push(LintWarning {
+                            message: format!(
+                                "Duplicate footnote definition '[^{}]' (first defined on line {})",
+                                id,
+                                first_line + 1
+                            ),
+                            line: line_idx + 1,
+                            column: line_info.indent + 1,
+                            end_line: line_idx + 1,
+                            end_column: line_info.indent + 1 + cap.get(0).unwrap().len(),
+                            severity: Severity::Error,
+                            fix: None,
+                            rule_name: Some(self.name().to_string()),
+                        });
+                    } else {
+                        seen_definitions.insert(id.to_string(), line_idx);
                     }
                 }
             }
@@ -166,7 +165,7 @@ impl Rule for MD901DuplicateFootnotes {
         let default_config = MD901Config::default();
         let json_value = serde_json::to_value(&default_config).ok()?;
         let toml_value = crate::rule_config_serde::json_to_toml_value(&json_value)?;
-        
+
         if let toml::Value::Table(table) = toml_value {
             if !table.is_empty() {
                 Some((MD901Config::RULE_NAME.to_string(), toml::Value::Table(table)))

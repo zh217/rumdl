@@ -115,7 +115,7 @@ impl Rule for MD902LongParagraphFootnotes {
                     paragraph_start_line = line_num;
                 }
                 paragraph_end_line = line_num;
-                
+
                 let content = line_info.content(ctx.content).trim();
                 if !current_paragraph.is_empty() {
                     current_paragraph.push(' ');
